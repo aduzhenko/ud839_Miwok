@@ -23,7 +23,7 @@ public class NumbersActivity extends AppCompatActivity {
 					"five", "six", "seven", "eight", "nine", "ten");
 
 		ArrayAdapter<String> theItemsAdapter = new ArrayAdapter<String>(
-					this, android.R.layout.simple_list_item_1, theEngNumbers);
+					this, R.layout.list_item, theEngNumbers);
 		ListView theView = (ListView) findViewById(R.id.list);
 		theView.setAdapter(theItemsAdapter);
 	}
