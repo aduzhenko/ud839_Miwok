@@ -4,18 +4,17 @@
 	android:layout_width="match_parent"
 	android:layout_height="wrap_content"
 	android:orientation="vertical"
-	android:paddingTop="16dp"
-	android:paddingLeft="16dp">
+	android:padding="16dp" >
 
 	<TextView
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
-		android:id="@+id/miwokNumber"
+		android:id="@+id/miwok_word"
 		tools:text="lutti"/>
 
 	<TextView
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
-		android:id="@+id/englishNumber"
+		android:id="@+id/default_word"
 		tools:text="one"/>
 </LinearLayout>
