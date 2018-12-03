@@ -13,6 +13,15 @@ public class NumbersActivity extends AppCompatActivity {
 
 	private MediaPlayer mMediaPlayer = null;
 
+	private MediaPlayer.OnCompletionListener mCompletionListener =
+				new MediaPlayer.OnCompletionListener() {
+
+		@Override
+		public void onCompletion(MediaPlayer mp) {
+			releaseMediaPlayer();
+		}
+	};
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -56,15 +65,15 @@ public class NumbersActivity extends AppCompatActivity {
 							theSoundResourceId);
 
 				mMediaPlayer.start();
-				mMediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-
-					@Override
-					public void onCompletion(MediaPlayer mp) {
-						releaseMediaPlayer();
-					}
-				});
+				mMediaPlayer.setOnCompletionListener(mCompletionListener);
 			}
 		});
+	}
+
+	@Override
+	protected void onStop() {
+		super.onStop();
+		releaseMediaPlayer();
 	}
 
 	private void releaseMediaPlayer() {

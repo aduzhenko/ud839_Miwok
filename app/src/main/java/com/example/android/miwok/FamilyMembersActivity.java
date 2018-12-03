@@ -13,6 +13,15 @@ public class FamilyMembersActivity extends AppCompatActivity {
 
 	private MediaPlayer mMediaPlayer = null;
 
+	private MediaPlayer.OnCompletionListener mCompletionListener =
+				new MediaPlayer.OnCompletionListener() {
+
+		@Override
+		public void onCompletion(MediaPlayer mp) {
+			releaseMediaPlayer();
+		}
+	};
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -50,25 +59,25 @@ public class FamilyMembersActivity extends AppCompatActivity {
 			public void onItemClick(AdapterView<?> parent, View view, int
 						position, long id) {
 
-			releasemediaPlayer();
+			releaseMediaPlayer();
 
 			int theSoundResourceId = theWords.get(position).getSoundResourceId();
 			mMediaPlayer = MediaPlayer.create(FamilyMembersActivity.this,
 						theSoundResourceId);
 
 			mMediaPlayer.start();
-			mMediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-
-				@Override
-				public void onCompletion(MediaPlayer mp) {
-					releasemediaPlayer();
-				}
-			});
+			mMediaPlayer.setOnCompletionListener(mCompletionListener);
 			}
 		});
 	}
 
-	private void releasemediaPlayer() {
+	@Override
+	protected void onStop() {
+		super.onStop();
+		releaseMediaPlayer();
+	}
+
+	private void releaseMediaPlayer() {
 		mMediaPlayer.release();
 		mMediaPlayer = null;
 	}
