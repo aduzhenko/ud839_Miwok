@@ -11,6 +11,8 @@ import java.util.ArrayList;
 
 public class ColorsActivity extends AppCompatActivity {
 
+	private MediaPlayer mMediaPlayer = null;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -44,11 +46,26 @@ public class ColorsActivity extends AppCompatActivity {
 			public void onItemClick(AdapterView<?> parent, View view, int
 					position, long id) {
 
-				int theSoundResourceId = theWords.get(position).getSoundResourceId();
-				MediaPlayer thePlayer = MediaPlayer.create(ColorsActivity.this,
-							theSoundResourceId);
-				thePlayer.start();
+			releaseMediaPlayer();
+
+			int theSoundResourceId = theWords.get(position).getSoundResourceId();
+			mMediaPlayer = MediaPlayer.create(ColorsActivity.this,
+						theSoundResourceId);
+
+			mMediaPlayer.start();
+			mMediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+
+				@Override
+				public void onCompletion(MediaPlayer mp) {
+					releaseMediaPlayer();
+				}
+			});
 			}
 		});
+	}
+
+	private void releaseMediaPlayer() {
+		mMediaPlayer.release();
+		mMediaPlayer = null;
 	}
 }
