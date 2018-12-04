@@ -79,19 +79,19 @@ public class PhrasesActivity extends AppCompatActivity {
 			public void onItemClick(AdapterView<?> parent, View view, int
 					position, long id) {
 
-			releaseMediaPlayer();
-			int theSoundResourceId = theWords.get(position).getSoundResourceId();
+				releaseMediaPlayer();
+				int theSoundResourceId = theWords.get(position).getSoundResourceId();
 
-			mAudioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
-			int theResult = mAudioManager.requestAudioFocus(
-					mAudioFocusChangeListener, AudioManager.STREAM_MUSIC,
-					AudioManager.AUDIOFOCUS_GAIN_TRANSIENT);
-			if (AudioManager.AUDIOFOCUS_REQUEST_GRANTED == theResult) {
-				mMediaPlayer = MediaPlayer.create(PhrasesActivity.this,
-							theSoundResourceId);
-				mMediaPlayer.start();
-				mMediaPlayer.setOnCompletionListener(mCompletionListener);
-			}
+				mAudioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
+				int theResult = mAudioManager.requestAudioFocus(
+							mAudioFocusChangeListener, AudioManager.STREAM_MUSIC,
+							AudioManager.AUDIOFOCUS_GAIN_TRANSIENT);
+				if (AudioManager.AUDIOFOCUS_REQUEST_GRANTED == theResult) {
+					mMediaPlayer = MediaPlayer.create(PhrasesActivity.this,
+								theSoundResourceId);
+					mMediaPlayer.start();
+					mMediaPlayer.setOnCompletionListener(mCompletionListener);
+				}
 			}
 		});
 	}
@@ -103,8 +103,10 @@ public class PhrasesActivity extends AppCompatActivity {
 	}
 
 	private void releaseMediaPlayer() {
-		mMediaPlayer.release();
-		mMediaPlayer = null;
-		mAudioManager.abandonAudioFocus(mAudioFocusChangeListener);
+		if (null != mMediaPlayer) {
+			mMediaPlayer.release();
+			mMediaPlayer = null;
+			mAudioManager.abandonAudioFocus(mAudioFocusChangeListener);
+		}
 	}
 }
